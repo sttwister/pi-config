@@ -34,8 +34,17 @@ For **each** affected repo:
 
 a. Run `but status --json` to get change IDs and existing stacks/branches.
 b. Review changes: check `unassignedChanges` and any stack changes to understand what changed.
-c. **If no suitable branch exists:** Create one with `but branch new <descriptive-name>`.
-d. **If a suitable branch already exists:** Use its ID from the status output.
+c. **Determine the branch to use:**
+   - If a suggested branch name was given (e.g. `use branch name feature/foo`), use it.
+   - If `stacked on <old-branch>` was also given, the new branch must be created **on top of** the old one (see step d).
+   - If no suitable branch exists in `but status --json`: create one with `but branch new <descriptive-name>`.
+   - If a suitable branch already exists (present in `but status --json`): use its ID from the status output.
+d. **If stacking is required** (`stacked on <old-branch>` hint was given):
+   After creating the new branch, immediately stack it on the old one:
+   ```bash
+   but branch move <new-branch> <old-branch>
+   ```
+   Then re-run `but status --json` to get fresh IDs before committing.
 e. Commit with explicit change IDs:
    ```bash
    but commit <branch> -c -m "<message>" --changes <id1>,<id2> --json --status-after
