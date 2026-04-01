@@ -145,6 +145,7 @@ Present all MR links to the user, clearly labeled by repo.
 
 ## General Rules
 
+- **Always `cd` into each repo's directory** before running any `but`, `git`, `glab`, or `gh` commands for that repo. Many CLI tools (especially `glab api` with `projects/:id`) resolve the project from the git remote in the current working directory. When a session spans multiple repos, running commands from the wrong directory will target the wrong project.
 - **NEVER commit or push directly on `develop` or `master`.**
 - **Branch naming**: Always use `feature/` prefix with a descriptive name: `feature/add-user-auth`, `feature/fix-logout-hang`. Never use `fix/`, `bugfix/`, or other prefixes — always `feature/`.
 - Each repo gets its own commit with a message relevant to the changes in that repo.
