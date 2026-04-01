@@ -46,10 +46,15 @@ d. **If stacking is required** (`stacked on <old-branch>` hint was given):
    ```
    Then re-run `but status --json` to get fresh IDs before committing.
 e. Commit with explicit change IDs:
-   ```bash
-   but commit <branch> -c -m "<message>" --changes <id1>,<id2> --json --status-after
-   ```
-   Use `-c` flag when committing to a new branch name. The `--status-after` output has fresh IDs — no need for a redundant `but status`.
+   - **New branch** (just created with `but branch new`): use `-c` to create-and-commit in one step:
+     ```bash
+     but commit <branch> -c -m "<message>" --changes <id1>,<id2> --json --status-after
+     ```
+   - **Existing branch** (already has commits / an open MR): do **NOT** use `-c` — that would recreate the branch head and rewrite history, forcing a force-push:
+     ```bash
+     but commit <branch> -m "<message>" --changes <id1>,<id2> --json --status-after
+     ```
+   The `--status-after` output has fresh IDs — no need for a redundant `but status`.
 
 ### 3. Push and create PR/MR
 
@@ -59,9 +64,15 @@ a. Check if a PR/MR already exists:
    ```bash
    but branch show <branch> --review --json
    ```
-   Inspect the `reviews` array in the output. If non-empty, a PR/MR already exists — skip creation and note the existing one.
+   Inspect the `reviews` array in the output.
 
-b. If no PR/MR exists, create one:
+   - **PR/MR already exists**: push the new commit(s) with a normal push — do **not** force-push:
+     ```bash
+     but push <branch>
+     ```
+     Note the existing PR/MR URL from the `reviews` array and present it to the user.
+
+b. **If no PR/MR exists**, create one:
    ```bash
    but pr new <branch> -t --json --status-after
    ```
