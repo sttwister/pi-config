@@ -60,6 +60,12 @@ b. If no PR/MR exists, create one:
 
    **Note:** If forge auth is not configured, `but pr new` will fail. In that case, fall back to pushing with `but push <branch>` and inform the user to run `but config forge auth` to enable PR creation, or create the PR manually on the forge.
 
+   **After a successful MR creation on GitLab**, enable "Delete source branch" and "Squash commits" on the MR:
+   ```bash
+   glab mr update <branch> --remove-source-branch --squash-before-merge
+   ```
+   (`glab mr update` can take a branch name and targets the MR associated with that branch.)
+
 ### 4. Present results
 
 Present all PR/MR links to the user, clearly labeled by repo.
