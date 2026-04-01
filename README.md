@@ -7,6 +7,7 @@ Personal [pi](https://github.com/badlogic/pi) extensions and skills.
 ### Extensions
 
 - **prompt-stash** — Stash/unstash prompts with `Alt+S` / `Alt+Z`. Like `git stash` but for your editor text.
+- **plan-prompt** — Send your prompt in plan mode with `Alt+P`. The agent researches and plans without making any changes.
 
 ### Skills
 
@@ -19,6 +20,16 @@ pi install git:github.com/sttwister/pi-config
 ```
 
 ## Usage
+
+### Plan Prompt
+
+| Shortcut | Description |
+|----------|-------------|
+| `Alt+P` | Send current editor text as a plan-mode prompt |
+
+Type your feature description or task in the editor, then press `Alt+P` instead of Enter. The agent will explore the codebase and produce a plan without editing, creating, or deleting any files. Press Enter normally when you're ready to implement.
+
+A `📋 plan` indicator appears in the footer while the plan turn is active.
 
 ### Prompt Stash
 
