@@ -66,11 +66,19 @@ a. Check if a PR/MR already exists:
    ```
    Inspect the `reviews` array in the output.
 
-   - **PR/MR already exists**: push the new commit(s) with a normal push — do **not** force-push:
+   - **PR/MR already exists and is open** (no `mergedAt`): push the new commit(s) with a normal push — do **not** force-push:
      ```bash
      but push <branch>
      ```
      Note the existing PR/MR URL from the `reviews` array and present it to the user.
+
+   - **PR/MR already exists but is merged** (has `mergedAt`): the previous PR was completed but the session continued with new work. Push first, then create a **new** PR via the forge CLI since `but pr new` will refuse to create a duplicate:
+     ```bash
+     but push <branch>
+     gh pr create --base master --head <branch> --title "<commit title>" --body "<commit body>"
+     ```
+     For GitLab, use `glab mr create --fill --yes --source-branch <branch> --target-branch develop --remove-source-branch --squash-before-merge` instead.
+     This is the one exception to the "never use gh/glab in GitButler repos" rule.
 
 b. **If no PR/MR exists**, create one:
    ```bash
